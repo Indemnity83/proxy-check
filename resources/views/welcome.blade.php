@@ -64,7 +64,7 @@
                             </div>
                             <div class="alert mt-3 text-small collapse" id="ip-detail">
                                 The server thinks the client IP address is <code>{{ request()->getClientIp() }}</code>.<br />
-                                The client IP address appears to be <code id="ip-address"></code>.
+                                Your public IP address is <code id="ip-address"></code>.
                             </div>
                         </li>
                         <li class="list-group-item flex-column align-items-start">
@@ -77,7 +77,7 @@
                             </div>
                             <div class="alert mt-3 text-small collapse" id="protocol-detail">
                                 The server thinks the protocol is <code>{{ request()->isSecure() ? 'https:' : 'http:' }}</code>.<br />
-                                The url is <code id="protocol-address"></code>.
+                                The url for this page is <code id="protocol-address"></code>.
                             </div>
                         </li>
 
