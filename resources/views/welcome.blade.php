@@ -81,13 +81,31 @@
                             </div>
                         </li>
 
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Generated URLs are followable
-                            <i id="normalUrl"></i>
+                        <li class="list-group-item flex-column align-items-start">
+                            <div data-toggle="collapse" href="#route-detail" role="button"
+                                 aria-expanded="false" aria-controls="collapseExample"
+                                 class="d-flex w-100 justify-content-between align-items-center cursor"
+                            >
+                                Generated URLs are followable
+                                <i id="normalUrl"></i>
+                            </div>
+                            <div class="alert mt-3 text-small collapse" id="route-detail">
+                                Generated: <code>{{ $url }}</code><br />
+                                Checked: <code id="url"></code>
+                            </div>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Signed URLs are valid
-                            <i id="signedUrl"></i>
+                        <li class="list-group-item flex-column align-items-start">
+                            <div data-toggle="collapse" href="#signed-detail" role="button"
+                                 aria-expanded="false" aria-controls="collapseExample"
+                                 class="d-flex w-100 justify-content-between align-items-center cursor"
+                            >
+                                Signed URLs are valid
+                                <i id="signedUrl"></i>
+                            </div>
+                            <div class="alert mt-3 text-small collapse" id="signed-detail">
+                                Generated: <code>{{ $signedUrl }}</code><br />
+                                Checked: <code id="signed-url"></code>
+                            </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Request Headers
@@ -125,6 +143,8 @@
                 } else {
                     $('#normalUrl').addClass('fas fa-times text-danger');
                 }
+
+                $('#url').text(data.url);
             });
 
             $.getJSON('{{ $signedUrl }}', function(data) {
@@ -133,6 +153,8 @@
                 } else {
                     $('#signedUrl').addClass('fas fa-times text-danger');
                 }
+
+                $('#signed-url').text(data.url);
             });
 
             $.getJSON('https://ipapi.co/json/', function(data) {

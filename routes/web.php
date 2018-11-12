@@ -19,13 +19,15 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function() {
-    return response(['status' => 'ok']);
+    return response([
+        'status' => 'ok',
+        'url' => request()->fullUrl(),
+    ]);
 })->name('test');
 
 Route::get('/signed', function() {
-    if (! request()->hasValidSignature()) {
-        return response(['status' => 'invalid signature']);
-    }
-
-    return response(['status' => 'ok']);
+    return response([
+        'status' => request()->hasValidSignature() ? 'ok' : 'failed',
+        'url' => request()->fullUrl(),
+    ]);
 })->name('signed');
