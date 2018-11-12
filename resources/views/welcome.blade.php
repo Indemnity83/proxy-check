@@ -61,26 +61,26 @@
                         </li>
                         <li class="list-group-item flex-column align-items-start">
                             <div data-toggle="collapse" href="#ip-detail" role="button"
-                               aria-expanded="false" aria-controls="collapseExample"
+                               aria-expanded="true" aria-controls="collapseExample"
                                class="d-flex w-100 justify-content-between align-items-center cursor"
                             >
                                 Server knows IP
                                 <i id="ip-check"></i>
                             </div>
-                            <div class="alert mt-3 text-small" id="ip-detail">
+                            <div class="alert mt-3 text-small collapse show" id="ip-detail">
                                 The server thinks the client IP address is <code>{{ request()->getClientIp() }}</code>.<br />
                                 Your public IP address is <code id="ip-address"></code>.
                             </div>
                         </li>
                         <li class="list-group-item flex-column align-items-start">
                             <div data-toggle="collapse" href="#protocol-detail" role="button"
-                                 aria-expanded="false" aria-controls="collapseExample"
+                                 aria-expanded="true" aria-controls="collapseExample"
                                  class="d-flex w-100 justify-content-between align-items-center cursor"
                             >
                                 Server knows Protocol
                                 <i id="protocol-check"></i>
                             </div>
-                            <div class="alert mt-3 text-small" id="protocol-detail">
+                            <div class="alert mt-3 text-small collapse show" id="protocol-detail">
                                 The server thinks the protocol is <code>{{ request()->isSecure() ? 'https:' : 'http:' }}</code>.<br />
                                 The url for this page is <code id="protocol-address"></code>.
                             </div>
@@ -88,13 +88,13 @@
 
                         <li class="list-group-item flex-column align-items-start">
                             <div data-toggle="collapse" href="#route-detail" role="button"
-                                 aria-expanded="false" aria-controls="collapseExample"
+                                 aria-expanded="true" aria-controls="collapseExample"
                                  class="d-flex w-100 justify-content-between align-items-center cursor"
                             >
                                 Generated URLs are followable
                                 <i id="normalUrl"></i>
                             </div>
-                            <div class="alert mt-3 text-small" id="route-detail">
+                            <div class="alert mt-3 text-small collapse show" id="route-detail">
                                 <ul>
                                     <li>sending request to <code>{{ $url }}</code></li>
                                     <li>server thinks we requested <code id="url"></code></li>
@@ -103,13 +103,13 @@
                         </li>
                         <li class="list-group-item flex-column align-items-start">
                             <div data-toggle="collapse" href="#signed-detail" role="button"
-                                 aria-expanded="false" aria-controls="collapseExample"
+                                 aria-expanded="true" aria-controls="collapseExample"
                                  class="d-flex w-100 justify-content-between align-items-center cursor"
                             >
                                 Signed URLs are valid
                                 <i id="signedUrl"></i>
                             </div>
-                            <div class="alert mt-3 text-small" id="signed-detail">
+                            <div class="alert mt-3 text-small collapse show" id="signed-detail">
                                 <ul style="overflow: scroll">
                                     <li>sending request to <code>{{ $signedUrl }}</code></li>
                                     <li>server thinks we requested <code id="signed-url"></code></li>
