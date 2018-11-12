@@ -26,6 +26,11 @@
                 line-height: 160%;
             }
 
+            .text-medium {
+                font-size: 120%;
+                line-height: 160%;
+            }
+
             .text-small {
                 font-size: 80%;
                 line-height: 130%;
@@ -51,7 +56,7 @@
 
                     <ul class="list-group mb-3 text-large">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Server thiks request is proxied
+                            Server thinks request is proxied
                             <code>{{ request()->isFromTrustedProxy() ? 'Yes' : 'No'}}</code>
                         </li>
                         <li class="list-group-item flex-column align-items-start">
@@ -62,7 +67,7 @@
                                 Server knows IP
                                 <i id="ip-check"></i>
                             </div>
-                            <div class="alert mt-3 text-small collapse" id="ip-detail">
+                            <div class="alert mt-3 text-small" id="ip-detail">
                                 The server thinks the client IP address is <code>{{ request()->getClientIp() }}</code>.<br />
                                 Your public IP address is <code id="ip-address"></code>.
                             </div>
@@ -75,7 +80,7 @@
                                 Server knows Protocol
                                 <i id="protocol-check"></i>
                             </div>
-                            <div class="alert mt-3 text-small collapse" id="protocol-detail">
+                            <div class="alert mt-3 text-small" id="protocol-detail">
                                 The server thinks the protocol is <code>{{ request()->isSecure() ? 'https:' : 'http:' }}</code>.<br />
                                 The url for this page is <code id="protocol-address"></code>.
                             </div>
@@ -89,9 +94,11 @@
                                 Generated URLs are followable
                                 <i id="normalUrl"></i>
                             </div>
-                            <div class="alert mt-3 text-small collapse" id="route-detail">
-                                Generated: <code>{{ $url }}</code><br />
-                                Checked: <code id="url"></code>
+                            <div class="alert mt-3 text-small" id="route-detail">
+                                <ul>
+                                    <li>sending request to <code>{{ $url }}</code></li>
+                                    <li>server thinks we requested <code id="url"></code></li>
+                                </ul>
                             </div>
                         </li>
                         <li class="list-group-item flex-column align-items-start">
@@ -102,9 +109,12 @@
                                 Signed URLs are valid
                                 <i id="signedUrl"></i>
                             </div>
-                            <div class="alert mt-3 text-small collapse" id="signed-detail">
-                                Generated: <code>{{ $signedUrl }}</code><br />
-                                Checked: <code id="signed-url"></code>
+                            <div class="alert mt-3 text-small" id="signed-detail">
+                                <ul style="overflow: scroll">
+                                    <li>sending request to <code>{{ $signedUrl }}</code></li>
+                                    <li>server thinks we requested <code id="signed-url"></code></li>
+                                    <li>server reports signature is <code id="signed-status"></code></li>
+                                </ul>
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -123,7 +133,7 @@
         <div class="modal fade" id="showHeaders" tabindex="-1" role="dialog" aria-labelledby="showHeadersLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-body text-nowrap text-large" style="overflow: scroll;">
+                    <div class="modal-body text-nowrap text-medium" style="overflow: scroll;">
                         @foreach(request()->header() as $header => $values)
                             <strong>{{ title_case($header)  }}:</strong> {{ implode(', ', $values) }} <br />
                         @endforeach
@@ -142,6 +152,7 @@
                     $('#normalUrl').addClass('fas fa-check text-success');
                 } else {
                     $('#normalUrl').addClass('fas fa-times text-danger');
+                    $('#route-detail').addClass('alert-danger');
                 }
 
                 $('#url').text(data.url);
@@ -152,9 +163,11 @@
                     $('#signedUrl').addClass('fas fa-check text-success');
                 } else {
                     $('#signedUrl').addClass('fas fa-times text-danger');
+                    $('#signed-detail').addClass('alert-danger');
                 }
 
                 $('#signed-url').text(data.url);
+                $('#signed-status').text(data.status);
             });
 
             $.getJSON('https://ipapi.co/json/', function(data) {
@@ -162,7 +175,7 @@
                     $('#ip-check').addClass('fas fa-check text-success');
                 } else {
                     $('#ip-check').addClass('fas fa-times text-danger');
-                    $('#ip-detail').collapse().addClass('alert-danger');
+                    $('#ip-detail').addClass('alert-danger');
                     $('#ip-address').text(data.ip);
                 }
             });
@@ -172,7 +185,7 @@
                 $('#protocol-check').addClass('fas fa-check text-success');
             } else {
                 $('#protocol-check').addClass('fas fa-times text-danger');
-                $('#protocol-detail').collapse().addClass('alert-danger');
+                $('#protocol-detail').addClass('alert-danger');
             }
         </script>
 

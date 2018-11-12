@@ -27,7 +27,7 @@ Route::get('/test', function() {
 
 Route::get('/signed', function() {
     return response([
-        'status' => request()->hasValidSignature() ? 'ok' : 'failed',
+        'status' => request()->hasValidSignature() ? 'ok' : 'invalid',
         'url' => request()->fullUrl(),
     ]);
 })->name('signed');
