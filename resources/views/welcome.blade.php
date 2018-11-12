@@ -94,6 +94,17 @@
                     <span>A sanity tool from <a href="https://github.com/indemnity83">Kyle Klaus</a></span>
                 </div>
 
+                <hr />
+
+                <div class="row">
+                    <div class="key">Generated URL</div>
+                    <div class="value"><code><a href="{{ $url }}">{{ $url }}</a></code></div>
+                </div>
+
+                <div class="row">
+                    <div class="key">Signed URL</div>
+                    <div class="value"><code><a href="{{ $signedUrl }}">{{ $signedUrl }}</a></code></div>
+                </div>
 
                 <hr />
 

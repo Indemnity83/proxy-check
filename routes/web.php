@@ -12,5 +12,20 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', [
+        'url' => \Illuminate\Support\Facades\URL::route('test'),
+        'signedUrl' => \Illuminate\Support\Facades\URL::signedRoute('signed'),
+    ]);
 });
+
+Route::get('/test', function() {
+    return response(['status' => 'ok']);
+})->name('test');
+
+Route::get('/signed', function() {
+    if (! request()->hasValidSignature()) {
+        return response(['status' => 'invalid signature']);
+    }
+
+    return response(['status' => 'ok']);
+})->name('signed');
