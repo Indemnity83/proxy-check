@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Laravel</title>
 
@@ -30,13 +31,17 @@
                 line-height: 130%;
             }
 
+            .cursor {
+                cursor: pointer;
+            }
+
             code {
                 color: inherit !important;
             }
         </style>
     </head>
     <body>
-        <div class="content">
+        <div id="app" class="content">
             <div class="row">
                 <div class="col-6 mx-auto">
                     <div class="mb-5 text-center">
@@ -49,6 +54,33 @@
                             Server thiks request is proxied
                             <code>{{ request()->isFromTrustedProxy() ? 'Yes' : 'No'}}</code>
                         </li>
+                        <li class="list-group-item flex-column align-items-start">
+                            <div data-toggle="collapse" href="#ip-detail" role="button"
+                               aria-expanded="false" aria-controls="collapseExample"
+                               class="d-flex w-100 justify-content-between align-items-center cursor"
+                            >
+                                Server knows IP
+                                <i id="ip-check"></i>
+                            </div>
+                            <div class="alert mt-3 text-small collapse" id="ip-detail">
+                                The server thinks the client IP address is <code>{{ request()->getClientIp() }}</code>.<br />
+                                The client IP address appears to be <code id="ip-address"></code>.
+                            </div>
+                        </li>
+                        <li class="list-group-item flex-column align-items-start">
+                            <div data-toggle="collapse" href="#protocol-detail" role="button"
+                                 aria-expanded="false" aria-controls="collapseExample"
+                                 class="d-flex w-100 justify-content-between align-items-center cursor"
+                            >
+                                Server knows Protocol
+                                <i id="protocol-check"></i>
+                            </div>
+                            <div class="alert mt-3 text-small collapse" id="protocol-detail">
+                                The server thinks the protocol is <code>{{ request()->isSecure() ? 'https:' : 'http:' }}</code>.<br />
+                                The url is <code id="protocol-address"></code>.
+                            </div>
+                        </li>
+
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Generated URLs are followable
                             <i id="normalUrl"></i>
@@ -56,26 +88,6 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Signed URLs are valid
                             <i id="signedUrl"></i>
-                        </li>
-                        <li class="list-group-item flex-column align-items-start">
-                            <div class="d-flex w-100 justify-content-between align-items-center">
-                                Server knows IP
-                                <i id="ip-check"></i>
-                            </div>
-                            <div class="alert alert-warning mt-3 text-small d-none" id="ip-detail">
-                                The server thinks the client IP address is <code>{{ request()->getClientIp() }}</code> but
-                                the client IP address appears to be <code id="ip-address"></code>
-                            </div>
-                        </li>
-                        <li class="list-group-item flex-column align-items-start">
-                            <div class="d-flex w-100 justify-content-between align-items-center">
-                                Server knows Protocol
-                                <i id="protocol-check"></i>
-                            </div>
-                            <div class="alert alert-warning mt-3 text-small d-none" id="protocol-detail">
-                                The server thinks the protocol is <code>{{ request()->isSecure() ? 'https:' : 'http:' }}</code> but
-                                the request is being made via <code id="protocol-address"></code>
-                            </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Request Headers
@@ -124,21 +136,21 @@
             });
 
             $.getJSON('https://ipapi.co/json/', function(data) {
-                if(data.ip == '{{ request()->getClientIp() }}') {
+                if(data.ip === '{{ request()->getClientIp() }}') {
                     $('#ip-check').addClass('fas fa-check text-success');
                 } else {
                     $('#ip-check').addClass('fas fa-times text-danger');
-                    $('#ip-detail').removeClass('d-none');
+                    $('#ip-detail').collapse().addClass('alert-danger');
                     $('#ip-address').text(data.ip);
                 }
             });
 
+            $('#protocol-address').text(location.protocol);
             if (location.protocol === '{{ request()->isSecure() ? 'https:' : 'http:' }}') {
                 $('#protocol-check').addClass('fas fa-check text-success');
             } else {
                 $('#protocol-check').addClass('fas fa-times text-danger');
-                $('#protocol-detail').removeClass('d-none');
-                $('#protocol-address').text(location.protocol);
+                $('#protocol-detail').collapse().addClass('alert-danger');
             }
         </script>
 
